@@ -1,0 +1,8 @@
+CarcaseStorageSize=50
+EngineStorageSize=50
+AccessoryStorageSize=50
+CarStorageSize=50
+AccessorySuppliers=5
+Workers=10
+Dealers=1
+LogSale=true
