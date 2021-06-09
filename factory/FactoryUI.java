@@ -58,7 +58,7 @@ public class FactoryUI {
             @Override
             public void stateChanged(ChangeEvent e) {
                 int value = ((JSlider) e.getSource()).getValue();
-                factory.getEngineSupplierRunnable().setTimeWait(value);
+                factory.getCarcaseSupplierRunnable().setTimeWait(value);
             }
         });
 

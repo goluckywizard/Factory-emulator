@@ -9,6 +9,7 @@ public class Worker implements Runnable {
     CarStorage carStorage;
     boolean isOnWork = false;
     Integer workerID;
+    Controller controller;
 
     public Worker(AccessoryStorage accessoryStorage, EngineStorage engineStorage, CarcaseStorage carcaseStorage, CarStorage carStorage, Integer workerID) {
         this.accessoryStorage = accessoryStorage;
@@ -16,6 +17,15 @@ public class Worker implements Runnable {
         this.carcaseStorage = carcaseStorage;
         this.carStorage = carStorage;
         this.workerID = workerID;
+    }
+
+    public Worker(AccessoryStorage accessoryStorage, EngineStorage engineStorage, CarcaseStorage carcaseStorage, CarStorage carStorage, Integer workerID, Controller controller) {
+        this.accessoryStorage = accessoryStorage;
+        this.engineStorage = engineStorage;
+        this.carcaseStorage = carcaseStorage;
+        this.carStorage = carStorage;
+        this.workerID = workerID;
+        this.controller = controller;
     }
 
     @Override
@@ -27,6 +37,9 @@ public class Worker implements Runnable {
         System.out.println("New car: " +car.getID()+ " engine: "+ engine.ID +" accessory: "+accessory.ID+"\n");
         carStorage.addCar(car);
         isOnWork = false;
+        synchronized (controller) {
+            controller.notify();
+        }
     }
 
 }

@@ -28,16 +28,15 @@ public class Controller implements Runnable{
                     }
                     catch (InterruptedException err) {
                         err.printStackTrace();
+                    }
                 }
             }
 
             Worker worker = null;
             for (Worker iter : workers) {
-                synchronized (iter) {
-                    if (!iter.isOnWork) {
-                        worker = iter;
-                        break;
-                    }
+                if (!iter.isOnWork) {
+                    worker = iter;
+                    break;
                 }
             }
                 //worker = workers.poll();
@@ -45,10 +44,27 @@ public class Controller implements Runnable{
             if (worker != null) {
                 worker.isOnWork = true;
                 threadPool.execute(worker);
+                synchronized (carStorage) {
+                    try {
+                        carStorage.wait();
+                    }
+                    catch (InterruptedException err) {
+                        err.printStackTrace();
+                    }
+                }
+            }
+            else {
+                synchronized (this) {
+                    try {
+                        wait();
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
+                    }
+                }
             }
                 //workers.add(worker);
-            }
-            //workers.add(return_worker);
         }
+        //workers.add(return_worker);
     }
 }
+

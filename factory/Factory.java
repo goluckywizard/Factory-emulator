@@ -100,11 +100,11 @@ public class Factory {
         engineStorage = new EngineStorage(EngineStorageSize);
         accessoryStorage = new AccessoryStorage(AccessoryStorageSize);
         carStorage = new CarStorage(CarStorageSize);
-
-        for (int i = 0; i < workersCount; i++) {
-            workers[i] = new Worker(accessoryStorage, engineStorage, carcaseStorage, carStorage, i);
-        }
         controller = new Controller(workers, carStorage, threadPool);
+        for (int i = 0; i < workersCount; i++) {
+            workers[i] = new Worker(accessoryStorage, engineStorage, carcaseStorage, carStorage, i, controller);
+        }
+
         Date date = new Date();
         for (int i = 0; i < dealerCount; i++) {
             dealers[i] = new CarDealer(carStorage, i, isLog, date);
